@@ -8,7 +8,7 @@ ripples in a pond has provided the physical footing for wavefield modelling, the
 workhorse behind modern migration and inversion techniques.
 
 This essay solves the acoustic wave-equation for a single frequency point
-source. The single frequency solution to the wav equation is a Helmholtz equation.
+source, which is equivalent to solving a Helmholtz system.
 Although this may sound like a trivial exercise, I assure you I am not
 wasting your time. Recall 10th grade physics class (gr 6 if you were
 educated outside of Canada) and the principle of superposition. Any waveform
@@ -39,14 +39,7 @@ into a 2D Laplacian operator.
              [n,0,-n]) / dn^2
     LP = -(Dx + Dy)
     
-#=
-The derivitives are not defined on the edges of the model, so we need to zeroize
-these regions of our operator. Any row that does not sum to zero will not have
-a defined derivitive.
-=#
-    # Zero the edges
-    edges = vec(sum(LP,2) .!= 0)
-    LP[:,edges] = zeros(size(LP[:, edges]))
+
 #=
 Make a source wavefield consisting of a point source in the middle of the model.
 =#
