@@ -45,7 +45,7 @@ duration = dt * (size(m,1)-1) * 2
     
 w = Ricker(duration, dt, f)
 C = full(Toeplitz(w))
-
+    
 #=
 We want to make more than one measurement for our model, so we 
 create a fold using another linear operator. 
@@ -60,13 +60,15 @@ geometry results in normal move out (NMO). Since NMO is just
 translating elements, we can also write it as a linear operator.
 =#
 
+velocity = 1500.0
 N = opNMO(n, fold, velocity, dt, dx)
 
 #=
-We can cascade these operators to define our final opertor A:
+We can cascade these operators to define our final operator A:
 =#
 
-A = N*F*C
+C = kron(ones(fold)', C)
+A = C*N*F
 
 #= 
 We can now generate our synthetic data using Am=d.
@@ -79,5 +81,8 @@ D = reshape(d, fold, size(m,1))'
 We can reshape d into a gather and plot it to see the hyperbolic
 arrivals of seismic wavelets.
 =#
+
+plt.imshow(D, aspect="auto", cmap="Greys")
+plt.show()
 
 

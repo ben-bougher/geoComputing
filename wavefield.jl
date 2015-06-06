@@ -20,9 +20,11 @@ For the sake of simplicity, build a constant velocity model on a small 2-D
 grid. To avoid floating point rounding errors, I will use km as units.
 =#
     # make a 3 km by 3 km  constant velocity model
-    n, dn = 40, .01 # 10 m spacing
+    n, dn = 900, .01 # 10 m spacing
     c = ones(n,n) * 1.5 # 1500 m/s
-    w = 2.*pi*10 # 10 Hz source
+    w = 2.*pi*3 # 10 Hz source
+    q = zeros(n,n)
+    q[n/2,n/2] = 1.0
 
 #=
 Now I need to make a discrete La Place operator. This will look a computational
@@ -36,7 +38,7 @@ extend to 2-D using a kronecker product(footnote).
     
     Dy = spdiagm(tuple(ones(n*n-n), -ones(n*n)*2, ones(n*n-n) ),
              [n,0,-n]) / dn^2
-    LP = -(Dx + Dy)
+    LP = (Dx + Dy)
     
 
 #=
@@ -45,8 +47,9 @@ that solving this discrete PDE is solving a system a of linear equations.
 =#
     
     # Make the Helmholtz operator
-    H = LP + spdiagm((w ./ m) .* 2)
+    H = LP + spdiagm((w ./ c[:]) .* 2)
 
+    u = H\q[:]
     # reshape the factor back to our model dimensions
     U = reshape(u,n,n)
 
