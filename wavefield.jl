@@ -2,7 +2,7 @@
     Wavefield Modelling in 10 lines
 
 The physics of seismic imaging is modelled by the elastic wave equation, which
-in practice is reduced to a crude acoustic approximation. The cavelier
+in practice is reduced to the cruder acoustic approximation. The cavelier
 assumption that waves propagate through a heterogenous mechanical soup as
 ripples in a pond has provided the physical footing for wavefield modelling, the
 workhorse behind modern migration and inversion techniques.
@@ -10,13 +10,12 @@ workhorse behind modern migration and inversion techniques.
 This essay solves the acoustic wave-equation for a single frequency point
 source, which is equivalent to solving a Helmholtz system.
 Although this may sound like a trivial exercise, I assure you I am not
-wasting your time. Recall 10th grade physics class (gr 6 if you were
-educated outside of Canada) and the principle of superposition. Any waveform
+wasting your time. Using the principle of superposition, any waveform
 can be built by a superposition of single frequencies, and any wavefield can be
 represented by a superposition of point sources. Awesome! Add a for loop and
-you can now model any physical wavefield.
+you can now model any wavefield.
 
-For the sake of simplicity, build a constant velocity model on a small 2-D
+For the sake of simplicity, use a constant velocity model on a small 2-D
 grid. To avoid floating point rounding errors, I will use km.
 =#
     # make a 3 km by 3 km  constant velocity model
@@ -25,7 +24,7 @@ grid. To avoid floating point rounding errors, I will use km.
     w = 2.*pi*10 # 10 Hz source
 
 #=
-Now I need to make a discrete La Place operator. This will look a computational
+Now I need to make a discrete La Place operator. This will look like computational
 voodoo, but keeping things in matrix form simplifies the problem. Start with
 the 1-D discrete La Place equation, and notice that this expression can be
 written as a matrix-vector product. Using kronecker products, this is expanded
