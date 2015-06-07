@@ -2,21 +2,24 @@
     Wavefield Modelling in 10 lines
 
 The physics of seismic imaging is modelled by the elastic wave equation, which
-in practice is reduced to the cruder acoustic approximation. The cavelier
+in practice is reduced to an acoustic approximation. The cavelier
 assumption that waves propagate through a heterogenous mechanical soup as
 ripples in a pond has provided the physical footing for wavefield modelling, the
 workhorse behind modern migration and inversion techniques.
 
 This essay solves the acoustic wave-equation for a single frequency point
-source, which is equivalent to solving a Helmholtz system.
-Although this may sound like a trivial exercise, I assure you I am not
-wasting your time. Using the principle of superposition, any waveform
-can be built by a superposition of single frequencies, and any wavefield can be
-represented by a superposition of point sources. Awesome! Add a for loop and
-you can now model any wavefield.
+source, which is equivalent to solving the Helmholtz system:
+ \nabla^2U + \omega^2mU = q(x)
+where U is the wavefield, m is the slowness squared, \omega is the frequency,
+and q is the source term
 
-For the sake of simplicity, use a constant velocity model on a small 2-D
-grid. To avoid floating point rounding errors, I will use km.
+Although this example may sound trivial, superposition tells us that any waveform
+can be built by a synthesis of single frequencies, and any wavefield can be
+represented by a superposition of point sources. With a for loop
+you can model any physical wavefield from this basic code snippet.
+
+For the sake of simplicity, build a constant velocity model on a small 2-D
+grid. To avoid floating point rounding errors, I will use km as units.
 =#
     # make a 3 km by 3 km  constant velocity model
     n, dn = 40, .01 # 10 m spacing
