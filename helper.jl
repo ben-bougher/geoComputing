@@ -1,6 +1,6 @@
+using PyCall
 @pyimport matplotlib.pyplot as plt
-import SpecialMatrices
-import PyCall
+using SpecialMatrices
 
 function Ricker(duration, dt, f)
 

@@ -2,7 +2,7 @@
 Am=d
 
 In 52 things about geophysics, Bryan Russel wrote an excellent article
-on Am=d, the simple matrix-vector product at the core of most seismic 
+on Am=d, the simple matrix-vector product at the core of seismic 
 modelling and processing. This article demonstrates this relationship 
 by forward modelling a seismic experiment using the linear model Am=d.
 
@@ -14,7 +14,7 @@ the earth model as a list of inputs into our experiment, not as a geospatial
 representation. The matrix A describes the mechanics of our 
 forward model, and transforms our vector of earth parameters m
 into a vector of observed data d. Generally, m is the physical 
-properties of the earth and A is the physics the models data.
+properties of the earth and A is the physics that models data.
 
 This article demonstrates a simple forward model of an angle gather typically 
 used in AVO analysis. In this case m is the elastic properties of the earth,
@@ -23,20 +23,26 @@ which for simplicity we will define in the time domain.
 Using the aki-richards equation, the angle-dependent p-wave reflectivity
 can be modelled by the linear equation:
     aki richards
+where blah blah blah
+
 Defining a gradient operator matrix
  G matrix
 and lumping the constant terms the aki-richards
-equation can be written as a matrix product.
+equation can be written as a matrix vector product.
 
 (aki richards equation)
 
-The seismic reflection data can now be modelled as a convolution of a wavelet with a
+We model the physics of seismic reflection data as a convolution of a wavelet with a
 reflectivity series. Convolution is a linear operation, so by definition it
-can be expressed in matrix form. This operator is a special type of matrix,
+can also be expressed in matrix form. This operator is a special type of matrix,
 called a Toeplitz matrix, where each row is a shifted copy of the previous row.
 
+(toeplitz example)
+
 Combining the Aki-Richards operator with the convolution operator we
-get the forward modelling operator A. Our angle gather can be synthesized by the
+get the forward modelling operator A. 
+A = C*R
+Our angle gather can now be synthesized by the
 matrix vector product Am=d. 
 =#
 
@@ -49,10 +55,10 @@ vp, vs, rho = zeros(n+1), zeros(n+1), zeros(n+1)
 vp[1:n/2] = 2750; vs[1:n/2] = 1600; rho[1:n/2] = 2150.0;
 vp[n/2:end] = 3000; vs[n/2:end] = 2200; rho[n/2:end] = 2500.0;
 
-
+# stack the parameters into a flat vector
 m = [rho, vp, vs]
 
-# Make the Aki Richards reflectivity operator for 11 angles [0-20 deg]
+# Make the Aki Richards reflectivity operator for angles [0-40 deg]
 theta = [0:2:40]
 R = [opAkiRichards(n, angle, mean(vp), mean(vs), mean(rho))
      for angle in theta]
